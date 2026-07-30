@@ -1,4 +1,4 @@
-#include <iostream>     
+#include <iostream>      
 #include <string>       
 #include <cmath>        
 #include <fstream>    
@@ -100,20 +100,20 @@ int main() {
 		do {
 			cout << "Tipo de cliente (1: Particular [5% Accesorios], 2: Taller [10% Motor], 3: Flotilla [12% Frenos]): ";
 			cin >> tipoCliente;
-			if (tipoCliente < 1 || tipoCliente > 3) cout << "Opcion invalida.\n";
+			if (tipoCliente < 1 || tipoCliente > 3) cout << "Opcion invalida.Debe ser entre 1 y 3\n";
 		} while (tipoCliente < 1 || tipoCliente > 3);
 		
 		do {
 			cout << "Ingrese el genero del cliente (M: [5% Frenos] / F: [10% Accesorios]): ";
 			cin >> genero;
 			genero = toupper(genero);
-			if (genero != 'M' && genero != 'F') cout << "Genero invalido.\n";
+			if (genero != 'M' && genero != 'F') cout << "Genero invalido.Deber ser M masculino o F femenino\n";
 		} while (genero != 'M' && genero != 'F');
 		
 		do {
 			cout << "Ingrese la edad del cliente: ";
 			cin >> edad;
-			if (edad < 18 || edad > 120) cout << "Edad invalida.\n";
+			if (edad < 18 || edad > 120) cout << "Edad invalida.Debe estar entre 18 y 120\n";
 		} while (edad < 18 || edad > 120);
 		
 		// Vectores temporales por cliente
@@ -152,11 +152,17 @@ int main() {
 			do {
 				cout << "\nIngrese el codigo del producto (1-12): ";
 				cin >> codigoProducto;
+				if (codigoProducto < 1 || codigoProducto > 12) {
+					cout << "Codigo invalido. Debe estar entre 1 y 12.\n";
+				}
 			} while (codigoProducto < 1 || codigoProducto > 12);
 			
 			do {
 				cout << "Ingrese la cantidad a comprar: ";
 				cin >> cantidad;
+				if (cantidad <= 0) {
+					cout << "Cantidad invalida. Debe ser mayor a 0.\n";
+				}
 			} while (cantidad <= 0);
 			
 			int idx = codigoProducto - 1; 
@@ -374,6 +380,9 @@ int main() {
 			cout << "\n--- SELECCIONE LA FORMA DE PAGO ---\n";
 			cout << "1. Efectivo\n2. Transferencia Bancaria\n3. Tarjeta de Credito/Debito (5% Recargo)\n";
 			cout << "Opcion: "; cin >> metodoPago;
+			if (metodoPago < 1 || metodoPago > 3) {
+				cout << "Opcion invalida. Debe elegir 1, 2 o 3.\n";
+			}
 		} while (metodoPago < 1 || metodoPago > 3);
 		
 		if (metodoPago == 1) { 
@@ -381,7 +390,7 @@ int main() {
 			do {
 				cout << "\n[EFECTIVO] Total: Lps. " << totalNetoLps << " | Ingrese efectivo recibido: Lps. ";
 				cin >> montoRecibido;
-				if (montoRecibido < totalNetoLps) cout << "[!] Dinero insuficiente. Intente de nuevo.\n";
+				if (montoRecibido < totalNetoLps) cout << "Dinero insuficiente. Intente de nuevo.\n";
 			} while (montoRecibido < totalNetoLps);
 			cout << "-> Cambio a entregar: Lps. " << (montoRecibido - totalNetoLps) << "\n";
 			conteoEfectivo++;
@@ -400,6 +409,9 @@ int main() {
 				}
 				cout << "Opcion (1-5): ";
 				cin >> opcBcoOrigen;
+				if (opcBcoOrigen < 1 || opcBcoOrigen > 5) {
+					cout << "Opcion invalida. Debe elegir un banco entre 1 y 5.\n";
+				}
 			} while (opcBcoOrigen < 1 || opcBcoOrigen > 5);
 			bcoOrigen = bancosDisponibles[opcBcoOrigen - 1];
 			
@@ -411,6 +423,9 @@ int main() {
 				}
 				cout << "Opcion (1-5): ";
 				cin >> opcBcoDestino;
+				if (opcBcoDestino < 1 || opcBcoDestino > 5) {
+					cout << "Opcion invalida. Debe elegir un banco entre 1 y 5.\n";
+				}
 			} while (opcBcoDestino < 1 || opcBcoDestino > 5);
 			bcoDestino = bancosDisponibles[opcBcoDestino - 1];
 			
@@ -435,8 +450,30 @@ int main() {
 		else if (metodoPago == 3) { 
 			cout << "\n--- PROCESANDO PAGO CON TARJETA ---\n";
 			cout << "Numero de tarjeta (ultimos 4 digitos): "; cin >> tarjetaNum;
-			cout << "Banco emisor de la tarjeta           : "; cin >> tarjetaBanco;
-			cout << "Cantidad de cuotas elegidas (1-12)   : "; cin >> tarjetaCuotas;
+			
+			// --- VALIDACION AGREGADA: banco emisor de tarjeta seleccionado de un menu, igual que en transferencia ---
+			int opcBcoTarjeta = 0;
+			do {
+				cout << "\nSeleccione el Banco emisor de la tarjeta:\n";
+				for (int b = 0; b < 5; b++) {
+					cout << b + 1 << ". " << bancosDisponibles[b] << "\n";
+				}
+				cout << "Opcion (1-5): ";
+				cin >> opcBcoTarjeta;
+				if (opcBcoTarjeta < 1 || opcBcoTarjeta > 5) {
+					cout << "Opcion invalida. Debe elegir un banco entre 1 y 5.\n";
+				}
+			} while (opcBcoTarjeta < 1 || opcBcoTarjeta > 5);
+			tarjetaBanco = bancosDisponibles[opcBcoTarjeta - 1];
+			
+			// --- VALIDACION AGREGADA: cuotas debe estar entre 1 y 12 ---
+			do {
+				cout << "Cantidad de cuotas elegidas (1-12)   : "; 
+				cin >> tarjetaCuotas;
+				if (tarjetaCuotas < 1 || tarjetaCuotas > 12) {
+					cout << "Cantidad de cuotas invalida. Debe estar entre 1 y 12.\n";
+				}
+			} while (tarjetaCuotas < 1 || tarjetaCuotas > 12);
 			
 			recargoTarjeta = totalNetoLps * 0.05;
 			totalNetoLps += recargoTarjeta;
