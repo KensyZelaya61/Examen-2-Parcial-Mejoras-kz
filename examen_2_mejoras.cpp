@@ -7,8 +7,6 @@
 using namespace std;
 
 // Funcion auxiliar para leer respuestas de tipo Si/No de forma validada.
-// Solo acepta 'S', 's', 'N' o 'n'. Cualquier otro caracter se rechaza
-// y se vuelve a pedir el dato.
 char leerRespuestaSN(const string &mensaje) {
 	char resp;
 	do {
@@ -451,7 +449,6 @@ int main() {
 			cout << "\n--- PROCESANDO PAGO CON TARJETA ---\n";
 			cout << "Numero de tarjeta (ultimos 4 digitos): "; cin >> tarjetaNum;
 			
-			// --- VALIDACION AGREGADA: banco emisor de tarjeta seleccionado de un menu, igual que en transferencia ---
 			int opcBcoTarjeta = 0;
 			do {
 				cout << "\nSeleccione el Banco emisor de la tarjeta:\n";
